@@ -94,6 +94,7 @@ typedef char TCHAR;
 #endif
 
 #define INVALID_HANDLE_VALUE ((void *)-1)
+#define HFILE_ERROR          (-1)
 
 #ifdef __cplusplus
 }

@@ -8,7 +8,7 @@ extern "C" {
 #define KERNELAPI DECLSPEC_IMPORT
 #endif
 
-typedef struct HFILE__        __near *HFILE;
+typedef struct HFILE__        __near *HFILE; /* deliberate incompatibility */
 typedef struct HINSTANCE__    __near *HINSTANCE;
 typedef struct HTRANSACTION__ __near *HTRANSACTION;
 
@@ -30,6 +30,42 @@ KERNELAPI uint32_t APIENTRY GetLastError(void);
 KERNELAPI void     APIENTRY SetLastError(uint32_t dwErrCode);
 
 #endif
+
+/* OpenFile */
+
+#define OFS_MAXPATHNAME 128
+
+typedef struct _OFSTRUCT {
+	unsigned char cBytes;
+	unsigned char fFixedDisk;
+	uint16_t      nErrCode;
+	uint16_t      Reserved1,
+	              Reserved2;
+	char          szPathName[OFS_MAXPATHNAME];
+} OFSTRUCT;
+
+#define OF_READ             0x0000
+#define OF_WRITE            0x0001
+#define OF_READWRITE        0x0002
+#define OF_SHARE_COMPAT     0x0000
+#define OF_SHARE_EXCLUSIVE  0x0010
+#define OF_SHARE_DENY_WRITE 0x0020
+#define OF_SHARE_DENY_READ  0x0030
+#define OF_SHARE_DENY_NONE  0x0040
+#define OF_PARSE            0x0100
+#define OF_DELETE           0x0200
+#define OF_VERIFY           0x0400
+#define OF_SEARCH           0x0400
+#define OF_CANCEL           0x0800
+#define OF_CREATE           0x1000
+#define OF_PROMPT           0x2000
+#define OF_EXIST            0x4000
+#define OF_REOPEN           0x8000
+
+KERNELAPI int APIENTRY
+OpenFile(const char __far *lpFileName,
+         OFSTRUCT   __far *lpReOpenBuff, /* FIXME const? */
+         unsigned          uStyle);
 
 /* CreateFile, CreateFileTransacted, CreateFile2 */
 
@@ -105,8 +141,6 @@ typedef struct _CREATEFILE2_EXTENDED_PARAMETERS {
 	struct _SECURITY_ATTRIBUTES *lpSecurityAttributes;
 	HFILE                        hTemplateFile;
 } CREATEFILE2_EXTENDED_PARAMETERS;
-
-/* deliberate incompatibility: return a HFILE not a HANDLE */
 
 #define CreateFile _AW(CreateFile)
 
