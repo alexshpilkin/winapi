@@ -93,6 +93,8 @@ typedef char TCHAR;
 #endif
 #endif
 
+#define INVALID_HANDLE_VALUE ((void *)-1)
+
 #ifdef __cplusplus
 }
 #endif

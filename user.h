@@ -10,6 +10,14 @@ extern "C" {
 
 typedef struct HWND__ __near *HWND;
 
+/* SetLastErrorEx */
+
+#define SLE_ERROR      0x00000001
+#define SLE_MINORERROR 0x00000002
+#define SLE_WARNING    0x00000003
+
+USERAPI void APIENTRY SetLastErrorEx(uint32_t dwErrCode, uint32_t dwType);
+
 /* MessageBox */
 
 #define MB_TYPEMASK                  0x0000000F
@@ -74,21 +82,22 @@ typedef struct HWND__ __near *HWND;
 
 #ifdef _WIN32
 
+#define MessageBox _AW(MessageBox)
+
 USERAPI int APIENTRY
 MessageBoxW(struct HWND__        *hWnd,
             const char16_t       *lpText,
             const char16_t       *lpCaption,
             unsigned              uType);
 
-#define MessageBox  _AW(MessageBox)
 #else
 #define MessageBoxA MessageBox
 #endif
 
 USERAPI int APIENTRY
 MessageBoxA(struct HWND__ __near *hWnd,
-            const char __far     *lpText,
-            const char __far     *lpCaption,
+            const char     __far *lpText,
+            const char     __far *lpCaption,
             unsigned              uType);
 
 /* FIXME MessageBoxEx, MessageBoxIndirect */
