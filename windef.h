@@ -66,6 +66,18 @@ typedef wchar_t char16_t;
 #define ANYSIZE_ARRAY 1
 #endif
 
+#if __STDC_VERSION__ >= 201811L /* N2310 */
+#define _STATIC_ASSERT(E) _Static_assert((E))
+#elif __cplusplus >= 201411L /* N4296 */
+#define _STATIC_ASSERT(E) static_assert((E))
+#elif __STDC_VERSION__ >= 200904L /* N1362 */
+#define _STATIC_ASSERT(E) _Static_assert((E), #E)
+#elif __cplusplus >= 200504L /* N1804 */
+#define _STATIC_ASSERT(E) static_assert((E), #E)
+#else
+#define _STATIC_ASSERT(E) extern int _ASSERTION_FAILED[2*!!(E)-1]
+#endif
+
 #ifdef UNICODE
 #ifndef _WIN32
 #error "UNICODE requires _WIN32"
