@@ -14,7 +14,7 @@ extern "C" {
 #include <wchar.h>
 typedef wchar_t char16_t;
 #define _UTF16(S) L##S
-#if WCHAR_MAX <= 65535 && (WCHAR_MIN >= 0 || WCHAR_MIN >= -32768)
+#if WCHAR_MAX - WCHAR_MIN == 65535
 /* __STDC_ISO_10646__ can't be defined, so we can only hope */
 #define __STDC_UTF_16__ 1
 #endif
@@ -83,7 +83,7 @@ typedef wchar_t char16_t;
 #error "UNICODE requires _WIN32"
 #endif
 typedef char16_t TCHAR;
-#define _T(S)  u##S
+#define _T(S)  _UTF16(S)
 #define _AW(N) N##W
 #else
 typedef char TCHAR;
