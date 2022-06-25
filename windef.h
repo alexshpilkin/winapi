@@ -58,6 +58,7 @@ typedef wchar_t char16_t;
 #endif
 #endif
 
+#ifndef ANYSIZE_ARRAY
 #if __STDC_VERSION__ >= 199711L /* N794 */
 #define ANYSIZE_ARRAY
 #elif defined __GNUC__ /* FIXME and others? C++? */
@@ -65,7 +66,9 @@ typedef wchar_t char16_t;
 #else
 #define ANYSIZE_ARRAY 1
 #endif
+#endif
 
+#ifndef _STATIC_ASSERT
 #if __STDC_VERSION__ >= 201811L /* N2310 */
 #define _STATIC_ASSERT(E) _Static_assert((E))
 #elif __cplusplus >= 201411L /* N4296 */
@@ -76,6 +79,7 @@ typedef wchar_t char16_t;
 #define _STATIC_ASSERT(E) static_assert((E), #E)
 #else
 #define _STATIC_ASSERT(E) extern int _ASSERTION_FAILED[2*!!(E)-1]
+#endif
 #endif
 
 #ifdef UNICODE
