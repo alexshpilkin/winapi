@@ -4,6 +4,8 @@
 extern "C" {
 #endif
 
+struct HINSTANCE__;
+
 #ifdef _WIN32
 int PASCAL
 wWinMain(struct HINSTANCE__        *hInstance,

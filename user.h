@@ -85,20 +85,20 @@ USERAPI void APIENTRY SetLastErrorEx(uint32_t dwErrCode, uint32_t dwType);
 #define MessageBox _AW(MessageBox)
 
 USERAPI int APIENTRY
-MessageBoxW(struct HWND__        *hWnd,
-            const char16_t       *lpText,
-            const char16_t       *lpCaption,
-            unsigned              uType);
+MessageBoxW(HWND              hWnd,
+            const char16_t   *lpText,
+            const char16_t   *lpCaption,
+            unsigned          uType);
 
 #else
 #define MessageBoxA MessageBox
 #endif
 
 USERAPI int APIENTRY
-MessageBoxA(struct HWND__ __near *hWnd,
-            const char     __far *lpText,
-            const char     __far *lpCaption,
-            unsigned              uType);
+MessageBoxA(HWND              hWnd,
+            const char __far *lpText,
+            const char __far *lpCaption,
+            unsigned          uType);
 
 /* FIXME MessageBoxEx, MessageBoxIndirect */
 
