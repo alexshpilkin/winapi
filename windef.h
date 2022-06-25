@@ -26,6 +26,26 @@ typedef wchar_t char16_t;
 
 #endif
 
+#ifndef _HAS_STD_ATTRIBUTE
+#if __STDC_VERSION__ >= 201906L /* N2385 */ && defined __has_c_attribute
+#define _HAS_STD_ATTRIBUTE(A) __has_c_attribute(__ ## A ## __)
+#elif __cplusplus >= 200810L /* N2798 */ && defined __has_cpp_attribute
+#define _HAS_STD_ATTRIBUTE(A) __has_cpp_attribute(__ ## A ## __)
+#else
+#define _HAS_STD_ATTRIBUTE(A) _HAS_STD_ATTRIBUTE_ ## A
+#define _HAS_STD_ATTRIBUTE_noreturn (__STDC_VERSION__ >= 202206L /* N2912 */ || __cplusplus >= 200810L /* N2798 */)
+#endif
+#endif
+
+#ifndef _HAS_GNU_ATTRIBUTE
+#ifdef __has_attribute
+#define _HAS_GNU_ATTRIBUTE(A) __has_attribute(__ ## A ## __)
+#else
+#define _HAS_GNU_ATTRIBUTE(A) _HAS_GNU_ATTRIBUTE_ ## A
+#define _HAS_GNU_ATTRIBUTE_noreturn (__GNUC__ + (__GNUC_MINOR__ >= 5) > 2)
+#endif
+#endif
+
 #ifndef DECLSPEC_IMPORT
 #ifdef _WIN32
 #define DECLSPEC_IMPORT __declspec(dllimport)
@@ -79,6 +99,18 @@ typedef wchar_t char16_t;
 #define _STATIC_ASSERT(E) static_assert((E), #E)
 #else
 #define _STATIC_ASSERT(E) extern int _ASSERTION_FAILED[2*!!(E)-1]
+#endif
+#endif
+
+#ifndef _NORETURN
+#if _HAS_STD_ATTRIBUTE(noreturn)
+#define _NORETURN [[__noreturn__]]
+#elif __STDC_VERSION__ >= 201006L /* N1494 */
+#define _NORETURN _Noreturn
+#elif _HAS_GNU_ATTRIBUTE(noreturn)
+#define _NORETURN __attribute__((__noreturn__))
+#else /* FIXME __declspec(noreturn) */
+#define _NORETURN
 #endif
 #endif
 

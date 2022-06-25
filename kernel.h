@@ -22,6 +22,22 @@ struct _SECURITY_ATTRIBUTES; /* FIXME */
 #define GENERIC_EXECUTE 0x20000000
 #define GENERIC_ALL     0x10000000
 
+/* ExitProcess */
+
+#ifdef _WIN32
+
+KERNELAPI void _NORETURN APIENTRY ExitProcess(unsigned uExitCode);
+
+#else
+
+#ifdef __WATCOMC__ /* FIXME version? */
+void _NORETURN __dosexit(unsigned char, unsigned char);
+#pragma aux __dosexit parm [ah] [al] = 0xCD 0x21 /* int 21h */
+#define ExitProcess(U) (__dosexit(0x4C, (1 ? (U) : 0u) & 0xFF))
+#endif
+
+#endif
+
 /* GetLastError, SetLastError */
 
 #ifdef _WIN32
