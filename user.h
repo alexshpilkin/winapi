@@ -159,6 +159,37 @@ USERAPI HCURSOR APIENTRY
 LoadCursorA(struct HINSTANCE__ __near *hInstance,
             const char          __far *lpCursorName);
 
+/* LoadIcon */
+
+#define IDI_APPLICATION MAKEINTRESOURCE(32512)
+#define IDI_HAND        MAKEINTRESOURCE(32513) /* pre-3.95 name (sic, there is no IDI_STOP) */
+#define IDI_ERROR       MAKEINTRESOURCE(32513)
+#define IDI_QUESTION    MAKEINTRESOURCE(32514)
+#define IDI_EXCLAMATION MAKEINTRESOURCE(32515) /* pre-3.95 name */
+#define IDI_WARNING     MAKEINTRESOURCE(32515)
+#define IDI_ASTERISK    MAKEINTRESOURCE(32516) /* pre-3.95 name */
+#define IDI_INFORMATION MAKEINTRESOURCE(32516)
+#ifdef _WIN32
+#define IDI_WINLOGO     MAKEINTRESOURCE(32517) /* Win32 >= 3.95 */
+#define IDI_SHIELD      MAKEINTRESOURCE(32518) /* Win32 >= 6.0 */
+#endif
+
+#ifdef _WIN32
+
+#define LoadIcon _AW(LoadIcon)
+
+USERAPI HICON APIENTRY
+LoadIconW(struct HINSTANCE__        *hInstance,
+          const char16_t            *lpIconName);
+
+#else
+#define LoadIconA LoadIcon
+#endif
+
+USERAPI HICON APIENTRY
+LoadIconA(struct HINSTANCE__ __near *hInstance,
+          const char          __far *lpIconName);
+
 /* WNDPROC, DefWindowProc */
 
 typedef ULONG_PTR CALLBACK
