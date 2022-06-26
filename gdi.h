@@ -8,6 +8,8 @@ extern "C" {
 #define GDIAPI DECLSPEC_IMPORT
 #endif
 
+typedef struct HBRUSH__ __near *HBRUSH;
+
 /* GetStockObject */
 
 #define WHITE_BRUSH         0

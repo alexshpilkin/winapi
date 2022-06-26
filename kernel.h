@@ -8,6 +8,7 @@ extern "C" {
 #define KERNELAPI DECLSPEC_IMPORT
 #endif
 
+typedef struct ATOM__         __near *ATOM;
 typedef struct HFILE__        __near *HFILE; /* deliberate incompatibility */
 typedef struct HINSTANCE__    __near *HINSTANCE;
 typedef struct HTRANSACTION__ __near *HTRANSACTION;

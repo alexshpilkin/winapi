@@ -2,6 +2,7 @@
 extern "C" {
 #endif
 
+#include <limits.h>
 #include <stddef.h>
 #include <stdint.h>
 
@@ -128,6 +129,18 @@ typedef char TCHAR;
 #define _AW(N) N##A
 #endif
 #endif
+
+#ifdef _WIN32
+typedef uintptr_t UINT_PTR, ULONG_PTR;
+#else
+/* either of these might be the compiler's uintptr_t */
+typedef uint16_t UINT_PTR;
+typedef uint32_t ULONG_PTR;
+#endif
+
+typedef struct tagPOINT {
+	int x, y;
+} POINT;
 
 #define INVALID_HANDLE_VALUE ((void *)-1)
 /* #define HFILE_ERROR (-1) -- not a HFILE */
