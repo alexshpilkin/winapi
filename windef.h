@@ -89,6 +89,18 @@ typedef wchar_t char16_t;
 #endif
 #endif
 
+#ifndef DUMMYUNIONNAME
+#if !defined NONAMELESSUNION && \
+    (__STDC_VERSION__ >= 200911L /* N1425 */ || \
+     defined __cplusplus /* C++98 and later */ || \
+     __GNUC__ + (__GNUC_MINOR__ >= 1) > 3 || \
+     defined __WATCOMC__ /* FIXME version? */) /* FIXME MSVC */
+#define DUMMYUNIONNAME
+#else
+#define DUMMYUNIONNAME u
+#endif
+#endif
+
 #ifndef _STATIC_ASSERT
 #if __STDC_VERSION__ >= 201811L /* N2310 */
 #define _STATIC_ASSERT(E) _Static_assert((E))

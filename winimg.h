@@ -85,3 +85,23 @@ typedef struct _IMAGE_NT_HEADERS {
 } IMAGE_NT_HEADERS;
 
 _STATIC_ASSERT(sizeof(IMAGE_NT_HEADERS) == 120);
+
+#define IMAGE_SIZEOF_SHORT_NAME 8
+
+typedef struct _IMAGE_SECTION_HEADER /* scnhdr */ {
+	char Name[IMAGE_SIZEOF_SHORT_NAME]; /* s_name    */
+	union {
+		uint32_t PhysicalAddress;
+		uint32_t VirtualSize;
+	} DUMMYUNIONNAME;                   /* s_paddr   */
+	uint32_t VirtualAddress;            /* s_vaddr   */
+	uint32_t SizeOfRawData;             /* s_size    */
+	uint32_t PointerToRawData,          /* s_scnptr  */
+	         PointerToRelocations,      /* s_relptr  */
+	         PointerToLinenumbers;      /* s_lnnoptr */
+	uint16_t NumberOfRelocations,       /* s_nreloc  */
+	         NumberOfLinenumbers;       /* s_nlnno   */
+	uint32_t Characteristics;           /* s_flags   */
+} IMAGE_SECTION_HEADER;
+
+_STATIC_ASSERT(sizeof(IMAGE_SECTION_HEADER) == 40);
