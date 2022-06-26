@@ -251,7 +251,7 @@ typedef struct tagWNDCLASSA {
 
 #define RegisterClass _AW(RegisterClass)
 
-USERAPI struct ATOM__ *APIENTRY
+USERAPI /* ATOM */ uint16_t APIENTRY
 RegisterClassW(const WNDCLASSW       *lpWndClass);
 
 #else
@@ -259,7 +259,7 @@ RegisterClassW(const WNDCLASSW       *lpWndClass);
 #endif
 
 #ifdef _WIN32 /* Win16 >= 3.1 as well, actually */
-USERAPI struct ATOM__ *APIENTRY
+USERAPI /* ATOM */ uint16_t APIENTRY
 #else
 USERAPI int APIENTRY
 #endif
