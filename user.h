@@ -109,6 +109,52 @@ MessageBoxA(HWND              hWnd,
 
 /* FIXME MessageBoxEx, MessageBoxIndirect */
 
+/* MAKEINTRESOURCE */
+
+#define MAKEINTRESOURCE(I)  ((const void __far *)((1 ? (I) : (uint16_t)0) & 0xFFFF))
+#ifdef _WIN32
+#define MAKEINTRESOURCEW(I) ((const char16_t   *)MAKEINTRESOURCE(I))
+#endif
+#define MAKEINTRESOURCEA(I) ((const char __far *)MAKEINTRESOURCE(I))
+
+/* LoadCursor */
+
+#define IDC_ARROW       MAKEINTRESOURCE(32512)
+#define IDC_IBEAM       MAKEINTRESOURCE(32513)
+#define IDC_WAIT        MAKEINTRESOURCE(32514)
+#define IDC_CROSS       MAKEINTRESOURCE(32515)
+#define IDC_UPARROW     MAKEINTRESOURCE(32516)
+#define IDC_SIZE        MAKEINTRESOURCE(32640)
+#define IDC_ICON        MAKEINTRESOURCE(32641)
+/* Win16 >= 3.0 */
+#define IDC_SIZENWSE    MAKEINTRESOURCE(32642)
+#define IDC_SIZENESW    MAKEINTRESOURCE(32643)
+#define IDC_SIZEWE      MAKEINTRESOURCE(32644)
+#define IDC_SIZENS      MAKEINTRESOURCE(32645)
+#ifdef _WIN32
+#define IDC_SIZEALL     MAKEINTRESOURCE(32646)
+#define IDC_NO          MAKEINTRESOURCE(32648)
+#define IDC_HAND        MAKEINTRESOURCE(32649) /* Win32 >= 4.10 */
+#define IDC_APPSTARTING MAKEINTRESOURCE(32650)
+#define IDC_HELP        MAKEINTRESOURCE(32651) /* Win32 >= 3.95 */
+#endif
+
+#ifdef _WIN32
+
+#define LoadCursor _AW(LoadCursor)
+
+USERAPI HCURSOR APIENTRY
+LoadCursorW(struct HINSTANCE__        *hInstance,
+            const char16_t            *lpCursorName);
+
+#else
+#define LoadCursorA LoadCursor
+#endif
+
+USERAPI HCURSOR APIENTRY
+LoadCursorA(struct HINSTANCE__ __near *hInstance,
+            const char          __far *lpCursorName);
+
 /* WNDPROC, DefWindowProc */
 
 typedef ULONG_PTR CALLBACK
