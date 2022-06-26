@@ -158,10 +158,12 @@ DefWindowProcA(HWND      hWnd,
 /* Win16 >= 3.0 */
 #define CS_GLOBALCLASS     0x4000 /* implicit pre-3.0 */
 /* unknown                 0x8000 */
+#ifdef _WIN32
 /* Win32 >= 4.0 */
 #define CS_IME             0x00010000 /* undocumented */
 /* Win32 >= 5.1 */
 #define CS_DROPSHADOW      0x00020000
+#endif
 
 #ifdef _WIN32
 
@@ -352,10 +354,11 @@ CreateWindowA(const char          __far *lpClassName,
 #define SW_SHOWMINNOACTIVATE 7
 #define SW_SHOWNA            8
 #define SW_RESTORE           9
-/* Win32 only */
+#ifdef _WIN32
 #define SW_SHOWDEFAULT      10
 /* Win32 >= 5.0 */
 #define SW_FORCEMINIMIZE    11
+#endif
 
 USERAPI int APIENTRY ShowWindow(HWND hWnd, int nCmdShow);
 
