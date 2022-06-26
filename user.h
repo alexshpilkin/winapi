@@ -40,38 +40,40 @@ USERAPI void APIENTRY SetLastErrorEx(uint32_t dwErrCode, uint32_t dwType);
 #define MB_YESNO                     0x00000004
 #define MB_RETRYCANCEL               0x00000005
 #ifdef _WIN32
-#define MB_CANCELTRYCONTINUE         0x00000006
+#define MB_CANCELTRYCONTINUE         0x00000006 /* Win32 >= 5.0 */
 #endif
-#define MB_ICONHAND                  0x00000010
-#define MB_ICONSTOP                  0x00000010
+#define MB_ICONHAND                  0x00000010 /* pre-3.0 name */
+#define MB_ICONSTOP                  0x00000010 /* pre-3.95 name */
 #define MB_ICONERROR                 0x00000010
 #define MB_ICONQUESTION              0x00000020
-#define MB_ICONEXCLAMATION           0x00000030
+#define MB_ICONEXCLAMATION           0x00000030 /* pre-3.95 name */
 #define MB_ICONWARNING               0x00000030
-#define MB_ICONASTERISK              0x00000040
+#define MB_ICONASTERISK              0x00000040 /* pre-3.0 name */
 #define MB_ICONINFORMATION           0x00000040
-#define MB_USERICON                  0x00000080
+#ifdef _WIN32
+#define MB_USERICON                  0x00000080 /* Win32 >= 3.95 */
+#endif
 #define MB_DEFBUTTON1                0x00000000
 #define MB_DEFBUTTON2                0x00000100
 #define MB_DEFBUTTON3                0x00000200
 #ifdef _WIN32
-#define MB_DEFBUTTON4                0x00000300
+#define MB_DEFBUTTON4                0x00000300 /* Win32 >= 3.95 */
 #endif
 #define MB_APPLMODAL                 0x00000000
 #define MB_SYSTEMMODAL               0x00001000
 #define MB_TASKMODAL                 0x00002000
 #ifdef _WIN32
-#define MB_HELP                      0x00004000
+#define MB_HELP                      0x00004000 /* Win32 >= 3.95 */
 #endif
 #define MB_NOFOCUS                   0x00008000 /* Q87341 says internal -- is it even in Win32? */
 #ifdef _WIN32
 #define MB_SETFOREGROUND             0x00010000
-#define MB_DEFAULT_DESKTOP_ONLY      0x00020000
+#define MB_DEFAULT_DESKTOP_ONLY      0x00020000 /* ignored on 9x */
 #define MB_SERVICE_NOTIFICATION_NT3X 0x00040000
-#define MB_TOPMOST                   0x00040000
-#define MB_RIGHT                     0x00080000
-#define MB_RTLREADING                0x00100000
-#define MB_SERVICE_NOTIFICATION      0x00200000
+#define MB_TOPMOST                   0x00040000 /* Win32 >= 3.95 */
+#define MB_RIGHT                     0x00080000 /* Win32 >= 3.95 */
+#define MB_RTLREADING                0x00100000 /* Win32 >= 3.95 */
+#define MB_SERVICE_NOTIFICATION      0x00200000 /* Win32 >= 3.95 */
 #endif
 
 /* FIXME this is a generic list of common IDs, not specific to msgbox */
@@ -83,8 +85,10 @@ USERAPI void APIENTRY SetLastErrorEx(uint32_t dwErrCode, uint32_t dwType);
 #define IDYES       6
 #define IDNO        7
 #ifdef _WIN32
-#define IDTRYAGAIN 10
-#define IDCONTINUE 11
+#define IDCLOSE     8 /* Win32 >= 3.95 */
+#define IDHELP      9 /* Win32 >= 3.95 */
+#define IDTRYAGAIN 10 /* Win32 >= 5.0 */
+#define IDCONTINUE 11 /* Win32 >= 5.0 */
 #endif
 
 #ifdef _WIN32
