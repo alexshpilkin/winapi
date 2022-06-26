@@ -24,14 +24,14 @@ _STATIC_ASSERT(sizeof(IMAGE_DOS_HEADER) == 64);
 
 #define IMAGE_FILE_MACHINE_I386 0x014C
 
-typedef struct _IMAGE_FILE_HEADER {
-	uint16_t Machine;
-	uint16_t NumberOfSections;
-	uint32_t TimeDateStamp;
-	uint32_t PointerToSymbolTable;
-	uint32_t NumberOfSymbols;
-	uint16_t SizeOfOptionalHeader;
-	uint16_t Characteristics;
+typedef struct _IMAGE_FILE_HEADER /* filehdr */ {
+	uint16_t Machine;              /* f_magic  */
+	uint16_t NumberOfSections;     /* f_nscns  */
+	uint32_t TimeDateStamp;        /* f_timdat */
+	uint32_t PointerToSymbolTable; /* f_symptr */
+	uint32_t NumberOfSymbols;      /* f_nsyms  */
+	uint16_t SizeOfOptionalHeader; /* f_opthdr */
+	uint16_t Characteristics;      /* f_flags  */
 } IMAGE_FILE_HEADER;
 
 _STATIC_ASSERT(sizeof(IMAGE_FILE_HEADER) == 20);
@@ -42,15 +42,19 @@ typedef struct _IMAGE_DATA_DIRECTORY {
 
 _STATIC_ASSERT(sizeof(IMAGE_DATA_DIRECTORY) == 8);
 
-#define IMAGE_NT_OPTIONAL_HDR_MAGIC 0x010B /* aka ZMAGIC */
+#define IMAGE_NT_OPTIONAL_HDR_MAGIC 0x010B /* ZMAGIC  */
 
-typedef struct _IMAGE_OPTIONAL_HEADER {
+typedef struct _IMAGE_OPTIONAL_HEADER /* aouthdr */ {
 	/* COFF standard */
-	uint16_t Magic;
-	uint8_t  MajorLinkerVersion, MinorLinkerVersion;
-	uint32_t SizeOfCode, SizeOfInitializedData, SizeOfUninitializedData;
-	uint32_t AddressOfEntryPoint;
-	uint32_t BaseOfCode, BaseOfData;
+	uint16_t Magic;                    /* magic   */
+	uint8_t  MajorLinkerVersion,
+	         MinorLinkerVersion;       /* vstamp  */
+	uint32_t SizeOfCode,               /* tsize   */
+	         SizeOfInitializedData,    /* dsize   */
+	         SizeOfUninitializedData;  /* bsize   */
+	uint32_t AddressOfEntryPoint;      /* entry   */
+	uint32_t BaseOfCode,               /* text_start */
+	         BaseOfData;               /* data_start */
 
 	/* PE-specific */
 	uint32_t ImageBase;
