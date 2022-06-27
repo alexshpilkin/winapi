@@ -8,8 +8,8 @@ extern "C" {
 #define USERAPI DECLSPEC_IMPORT
 #endif
 
-struct ATOM__;
 struct HBRUSH__;
+struct HDC__;
 struct HINSTANCE__;
 
 typedef struct HCURSOR__ __near *HCURSOR;
@@ -490,6 +490,31 @@ USERAPI ULONG_PTR APIENTRY DispatchMessageW(const MSG       *lpMsg);
 USERAPI ULONG_PTR APIENTRY DispatchMessageA(const MSG __far *lpMsg);
 
 USERAPI void APIENTRY PostQuitMessage(int nExitCode);
+
+/* BeginPaint, EndPaint */
+
+typedef struct tagPAINTSTRUCT {
+	struct HDC__ __near *hdc;
+	int                  fErase;
+	RECT                 rcPaint;
+	int                  fRestore;
+	int                  fIncUpdate;
+#ifdef _WIN32
+	uint8_t              rgbReserved[32];
+#else
+	uint8_t              rgbReserved[16];
+#endif
+} PAINTSTRUCT;
+
+USERAPI struct HDC__ __near *APIENTRY
+BeginPaint(HWND hWnd, PAINTSTRUCT __far *lpPaint);
+
+#ifdef _WIN32
+USERAPI int APIENTRY /* always nonzero */
+#else
+USERAPI void APIENTRY
+#endif
+EndPaint(HWND hWnd, const PAINTSTRUCT __far *lpPaint);
 
 /* MESSAGE, DISPATCH, FORWARD */
 

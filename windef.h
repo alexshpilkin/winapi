@@ -152,6 +152,10 @@ typedef struct tagPOINT {
 	int x, y;
 } POINT;
 
+typedef struct tagRECT {
+	int left, top, right, bottom;
+} RECT;
+
 #define INVALID_HANDLE_VALUE ((void *)-1)
 /* #define HFILE_ERROR (-1) -- not a HFILE */
 

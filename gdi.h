@@ -9,6 +9,7 @@ extern "C" {
 #endif
 
 typedef struct HBRUSH__ __near *HBRUSH;
+typedef struct HDC__    __near *HDC;
 
 /* GetStockObject */
 
