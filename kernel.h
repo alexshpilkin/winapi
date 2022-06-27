@@ -206,7 +206,7 @@ CreateFileTransactedA(const char16_t              *lpFileName,
                       const uint16_t              *pusMinVersion,
                       void                        *lpExtendedParameter);
 
-KERNELAPI HFILE APIENTRY 
+KERNELAPI HFILE APIENTRY
 CreateFile2(const char16_t                        *lpFileName,
             uint32_t                               dwDesiredAccess,
             uint32_t                               dwShareMode,
