@@ -137,9 +137,7 @@ typedef char16_t TCHAR;
 #else
 typedef char TCHAR;
 #define _T(S)  S
-#ifdef _WIN32
 #define _AW(N) N##A
-#endif
 #endif
 
 #ifdef _WIN32

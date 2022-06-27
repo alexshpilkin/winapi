@@ -491,6 +491,122 @@ USERAPI ULONG_PTR APIENTRY DispatchMessageA(const MSG __far *lpMsg);
 
 USERAPI void APIENTRY PostQuitMessage(int nExitCode);
 
+/* MESSAGE, DISPATCH, FORWARD */
+
+#define _CAT(X, Y) _KAT(X, Y)
+#define _KAT(X, Y) X ## Y
+
+#define MESSAGE(H, M, W, L) \
+	do if (0) case (_ ## M): return \
+		_DISPATCH(_CAT(CLASS, _ON_ ## M), (H), _ ## M, (W), (L)); \
+	while (0)
+
+#define DISPATCH(F, H, M, W, L) \
+	(_DISPATCH((F), (H), _ ## M, (W), (L)))
+
+#define _DISPATCH(F, H, _M, W, L) \
+	(ULONG_PTR)(_RETURN ## _M ((F)( \
+		1 ? H : (HWND)0 /* comma */ \
+		_PARAMS ## _M ((1 ? W : (UINT_PTR)0), (1 ? L : (ULONG_PTR)0)) \
+	)))
+
+#if __STDC_VERSION__ >= 199711L /* N794 */ || \
+    __cplusplus >= 200510L /* N1905 */ || \
+    __GNUC__ + (__GNUC_MINOR__ >= 95) > 2 || \
+    defined __WATCOMC__ /* FIXME version? */
+
+#define FORWARD(F, H, ...) \
+	(_FORWARD((F), (H), _ ## __VA_ARGS__, -))
+
+#define _FORWARD(F, H, _M, ...) \
+	(_RESULT ## _M ((1 ? (F)( \
+		1 ? (H) : (HWND)0, 1 ? (_M) : (unsigned)0, \
+		(UINT_PTR)(_WPARAM ## _M (__VA_ARGS__)), \
+		(ULONG_PTR)(_LPARAM ## _M (__VA_ARGS__)) \
+	) : (ULONG_PTR)0)))
+
+#endif
+
+/* WM_CREATE */
+
+#ifdef _WIN32
+
+#define tagCREATESTRUCT _AW(tagCREATESTRUCT)
+#define CREATESTRUCT    _AW(CREATESTRUCT)
+
+typedef struct tagCREATESTRUCTW {
+	void                      *lpCreateParams;
+	struct HINSTANCE__        *hInstance;
+	HMENU                      hMenu;
+	HWND                       hwndParent;
+	int                        cy, cx;
+	int                        y, x;
+	uint32_t                   style;
+	const char16_t            *lpszName;
+	const char16_t            *lpszClass;
+	uint32_t                   dwExStyle;
+} CREATESTRUCTW;
+
+#else
+#define tagCREATESTRUCTA tagCREATESTRUCT
+#define CREATESTRUCTA    CREATESTRUCT
+#endif
+
+typedef struct tagCREATESTRUCTA {
+	void                __far *lpCreateParams;
+	struct HINSTANCE__ __near *hInstance;
+	HMENU                      hMenu;
+	HWND                       hwndParent;
+	int                        cy, cx;
+	int                        y, x;
+	uint32_t                   style;
+	const char          __far *lpszName;
+	const char          __far *lpszClass;
+	uint32_t                   dwExStyle; /* Win16 >= 3.0, ONT 2020-12-07 */
+} CREATESTRUCTA;
+
+#define WM_CREATE 0x0001
+
+#define _WM_CREATE               WM_CREATE
+#define _ON_WM_CREATE            _OnCreate /* sic */
+#define _PARAMS_WM_CREATE        _AW(_PARAMS_WM_CREATE)
+#define _RESULT_WM_CREATE(N)     !N
+#define _WPARAM_WM_CREATE(S, _)  0
+#define _LPARAM_WM_CREATE        _AW(_LPARAM_WM_CREATE)
+#define _RETURN_WM_CREATE(R)     (1 ? R : 1) ? 0 : -1
+
+#ifdef _WIN32
+
+#define _WM_CREATEW              _WM_CREATE
+#define _ON_WM_CREATEW           _OnCreateW
+#define _PARAMS_WM_CREATEW(W, L) , (CREATESTRUCTW *)L
+#define _RESULT_WM_CREATEW       _PARAMS_WM_CREATE
+#define _WPARAM_WM_CREATEW       _WPARAM_WM_CREATE
+#define _LPARAM_WM_CREATEW(S, _) 1 ? S : (CREATESTRUCTW *)0
+#define _RETURN_WM_CREATEW       _RETURN_WM_CREATE
+
+#endif
+
+#define _WM_CREATEA              _WM_CREATE
+#define _ON_WM_CREATEA           _OnCreateA
+#define _PARAMS_WM_CREATEA(W, L) , (CREATESTRUCTA __far *)L
+#define _RESULT_WM_CREATEA       _PARAMS_WM_CREATE
+#define _WPARAM_WM_CREATEA       _WPARAM_WM_CREATE
+#define _LPARAM_WM_CREATEA(S, _) 1 ? S : (CREATESTRUCTA __far *)0
+#define _RETURN_WM_CREATEA       _RETURN_WM_CREATE
+
+/* WM_DESTROY */
+
+#define WM_DESTROY 0x0002
+
+#define _WM_DESTROY              WM_DESTROY
+#define _ON_WM_DESTROY           _OnDestroy
+#define _PARAMS_WM_DESTROY(W, L) /* nothing */
+#define _RESULT_WM_DESTROY(N)    (void)N
+#define _WPARAM_WM_DESTROY(_)    0
+#define _LPARAM_WM_DESTROY(_)    0
+#define _RETURN_WM_DESTROY(R)    (1 ? R : (void)0), 0
+
 #ifdef __cplusplus
 }
 #endif
