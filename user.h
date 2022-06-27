@@ -607,6 +607,18 @@ typedef struct tagCREATESTRUCTA {
 #define _LPARAM_WM_DESTROY(_)    0
 #define _RETURN_WM_DESTROY(R)    (1 ? R : (void)0), 0
 
+/* WM_PAINT */
+
+#define WM_PAINT 0x000F
+
+#define _WM_PAINT              WM_PAINT
+#define _ON_WM_PAINT           _OnPaint
+#define _PARAMS_WM_PAINT(W, L) /* nothing */
+#define _RESULT_WM_PAINT(N)    (void)N
+#define _WPARAM_WM_PAINT(_)    0
+#define _LPARAM_WM_PAINT(_)    0
+#define _RETURN_WM_PAINT(R)    (1 ? R : (void)0), 0
+
 #ifdef __cplusplus
 }
 #endif
