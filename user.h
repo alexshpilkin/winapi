@@ -523,6 +523,60 @@ USERAPI int APIENTRY GetUpdateRect(HWND hWnd, RECT __far *lpRect, int bErase);
 USERAPI int APIENTRY GetClientRect(HWND hWnd, RECT __far *lpRect);
 USERAPI int APIENTRY GetWindowRect(HWND hWnd, RECT __far *lpRect);
 
+/* DrawText */
+
+#define DT_LEFT                 0x0000
+#define DT_CENTER               0x0001
+#define DT_RIGHT                0x0002
+#define DT_TOP                  0x0000
+#define DT_VCENTER              0x0004
+#define DT_BOTTOM               0x0008
+#define DT_WORDBREAK            0x0010
+#define DT_SINGLELINE           0x0020
+#define DT_EXPANDTABS           0x0040
+#define DT_TABSTOP              0x0080
+#define DT_NOCLIP               0x0100
+/* Win16 >= 2.0 */
+#define DT_EXTERNALLEADING      0x0200
+#define DT_CALCRECT             0x0400
+#define DT_NOPREFIX             0x0800
+/* Win16 >= 3.1 */
+#define DT_INTERNAL             0x1000
+/* Win32 >= 3.95 */
+#define DT_EDITCONTROL          0x2000
+#define DT_PATH_ELLIPSIS        0x4000
+#define DT_END_ELLIPSIS         0x8000
+#define DT_MODIFYSTRING         0x00010000
+#define DT_RTLREADING           0x00020000
+#define DT_WORD_ELLIPSIS        0x00040000
+/* Win32 >= 4.10 */
+#define DT_NOFULLWIDTHCHARBREAK 0x00080000
+/* Win32 >= 5.0 */
+#define DT_HIDEPREFIX           0x00100000
+#define DT_PREFIXONLY           0x00200000
+
+#ifdef _WIN32
+
+#define DrawText _AW(DrawText)
+
+USERAPI int APIENTRY
+DrawTextW(struct HDC__        *hDC,
+          const char16_t      *lpString,
+          int                  nCount,
+          const RECT          *lpRect,
+          unsigned             uFormat);
+
+#else
+#define DrawTextA DrawText
+#endif
+
+USERAPI int APIENTRY
+DrawTextA(struct HDC__ __near *hDC,
+          const char    __far *lpString,
+          int                  nCount,
+          const RECT    __far *lpRect,
+          unsigned             uFormat);
+
 /* MESSAGE, DISPATCH, FORWARD */
 
 #define _CAT(X, Y) _KAT(X, Y)
