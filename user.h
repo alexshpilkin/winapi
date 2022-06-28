@@ -491,7 +491,7 @@ USERAPI ULONG_PTR APIENTRY DispatchMessageA(const MSG __far *lpMsg);
 
 USERAPI void APIENTRY PostQuitMessage(int nExitCode);
 
-/* BeginPaint, EndPaint */
+/* BeginPaint, EndPaint, GetUpdateRect */
 
 typedef struct tagPAINTSTRUCT {
 	struct HDC__ __near *hdc;
@@ -515,6 +515,13 @@ USERAPI int APIENTRY /* always nonzero */
 USERAPI void APIENTRY
 #endif
 EndPaint(HWND hWnd, const PAINTSTRUCT __far *lpPaint);
+
+USERAPI int APIENTRY GetUpdateRect(HWND hWnd, RECT __far *lpRect, int bErase);
+
+/* GetClientRect, GetWindowRect */
+
+USERAPI int APIENTRY GetClientRect(HWND hWnd, RECT __far *lpRect);
+USERAPI int APIENTRY GetWindowRect(HWND hWnd, RECT __far *lpRect);
 
 /* MESSAGE, DISPATCH, FORWARD */
 
